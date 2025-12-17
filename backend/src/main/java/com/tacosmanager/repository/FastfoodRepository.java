@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface FastfoodRepository extends JpaRepository<Fastfood, Long> {
 
     Optional<Fastfood> findById(Long id);
