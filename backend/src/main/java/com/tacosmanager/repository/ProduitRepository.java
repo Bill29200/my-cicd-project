@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface ProduitRepository extends JpaRepository<Produit, Long> {
 
     Optional<Produit> findById(Long id);
