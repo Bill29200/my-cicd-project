@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
 
     Optional<Commande> findById(Long id);
