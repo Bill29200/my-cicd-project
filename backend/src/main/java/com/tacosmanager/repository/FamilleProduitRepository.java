@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface FamilleProduitRepository extends JpaRepository<FamilleProduit, Long> {
     //......................................................................................................READ........
 //    @Query("SELECT fp FROM FamilleProduit fp WHERE fp.intitule")
