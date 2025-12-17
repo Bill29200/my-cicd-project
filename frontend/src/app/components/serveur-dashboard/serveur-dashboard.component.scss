@@ -1,0 +1,7 @@
+// src/app/components/serveur-dashboard/serveur-dashboard.component.scss
+.card {
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}

@@ -1,0 +1,19 @@
+<!-- src/app/components/client-dashboard/client-dashboard.component.html -->
+<div class="container mt-5">
+  <h1>Fast Food Manager</h1>
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Rechercher un fastfood" [(ngModel)]="searchKeyword" (input)="searchFastfoods()">
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let fastfood of fastfoods">
+      <div class="card">
+        <img *ngIf="fastfood.logoUrl" [src]="fastfood.logoUrl" class="card-img-top" alt="{{ fastfood.intitule }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ fastfood.intitule }}</h5>
+          <p class="card-text">Adresse: {{ fastfood.adresse }}</p>
+          <a [routerLink]="['/order', fastfood.fastfoodId]" class="btn btn-primary">Commander</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

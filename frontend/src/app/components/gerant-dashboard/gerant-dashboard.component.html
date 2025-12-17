@@ -1,0 +1,58 @@
+<!-- src/app/components/gerant-dashboard/gerant-dashboard.component.html -->
+<div class="container mt-5">
+  <h1>Gestion du Fastfood </h1>
+  <p> {{user?.nom}} : {{ user?.role }} </p>
+  <div *ngIf="fastfood">
+    <p><strong>{{ fastfood.intitule }}</strong> - {{ fastfood.telephone }} </p>
+
+  </div>
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Rechercher une famille" [(ngModel)]="familleSearch" (input)="searchFamilles()">
+  </div>
+  <div class="accordion" id="familleAccordion">
+    <div class="accordion-item" *ngFor="let famille of familles">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + famille.id">
+          {{ famille.intitule }}
+        </button>
+      </h2>
+      <div [id]="'collapse' + famille.id" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Rechercher un produit" [(ngModel)]="produitSearch" (input)="searchProduits()">
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3" *ngFor="let produit of produits | filterByFamille:famille.id">
+              <div class="card">
+                <img *ngIf="produit.photo" [src]="produit.photo" class="card-img-top" alt="{{ produit.nomProd }}">
+                <div class="card-body">
+                  <h5 class="card-title">{{ produit.nomProd }}</h5>
+                  <p class="card-text">Prix: {{ produit.prix }}€</p>
+                  <p class="card-text">Disponible: {{ produit.disponible ? 'Oui' : 'Non' }}</p>
+                  <button class="btn btn-warning me-2" (click)="updateProduit(produit)">Modifier</button>
+                  <button class="btn btn-danger" (click)="deleteProduit(produit.id)">Supprimer</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5 class="card-title">Ajouter un Produit</h5>
+                  <button class="btn btn-success" (click)="createProduit(famille.id)">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Ajouter une Famille</h5>
+          <button class="btn btn-success" (click)="createFamille()">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

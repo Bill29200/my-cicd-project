@@ -1,0 +1,53 @@
+<!-- src/app/components/serveur-dashboard/serveur-dashboard.component.html -->
+<!--<div class="container mt-5">-->
+<!--  <h1>Gestion des Commandes</h1>-->
+<!--&lt;!&ndash;  <p>Serveur: {{ user?.nom }} - Fastfood: {{ }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="col-md-3">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h3>Créée</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;      <input type="text" class="form-control mb-3" placeholder="Rechercher" [(ngModel)]="search[Etat.CREEE]" (input)="searchCommandes(Etat.CREEE)">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card mb-3 bg-secondary text-white" *ngFor="let commande of commandes | filterByEtat:'CREEE'">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h5 class="card-title">Commande #{{ commande.id }}</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p class="card-text">Prix: {{ commande.prixGlobal }}€</p>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button class="btn btn-light" (click)="nextEtat(commande)">→</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="col-md-3">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h3>En attente</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;      <input type="text" class="form-control mb-3" placeholder="Rechercher" [(ngModel)]="search[Etat.EN_ATTENTE]" (input)="searchCommandes(Etat.EN_ATTENTE)">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card mb-3 bg-danger text-white" *ngFor="let commande of commandes | filterByEtat:'EN_ATTENTE'">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h5 class="card-title">Commande #{{ commande.id }}</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;          <p class="card-text">Prix: {{ commande.prixGlobal }}€</p>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button class="btn btn-light me-2" (click)="prevEtat(commande)">←</button>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button class="btn btn-light" (click)="nextEtat(commande)">→</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="col-md-3">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h3>Prête</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;      <input type="text" class="form-control mb-3" placeholder="Rechercher" [(ngModel)]="search[Etat.PRETE]" (input)="searchCommandes(Etat.PRETE)">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card mb-3 bg-warning text-dark" *ngFor="let commande of commandes | filterByEtat:'PRETE'">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <div class="card-body">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <h5 class="card-title">Commande #{{ commande.id }}</h5>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <p class="card-text">Prix: {{ commande.prixGlobal }}€</p>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <button class="btn btn-light me-2" (click)="prevEtat(commande)">←</button>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <button class="btn btn-light" (click)="nextEtat(commande)">→</button>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="col-md-3">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <h3>Livrée</h3>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <input type="text" class="form-control mb-3" placeholder="Rechercher" [(ngModel)]="search[Etat.LIVREE]" (input)="searchCommandes(Etat.LIVREE)">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      <div class="card mb-3 bg-success text-white" *ngFor="let commande of commandes | filterByEtat:'LIVREE'">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <div class="card-body">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;          <h5 class="card-title">Commande #{{ commande.id }}</h5>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;&lt;!&ndash;          <p class="card-text">Prix: {{ commande.prixGlobal }}€</p>&ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;          <button class="btn btn-light">not yet</button>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;      </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--</div>-->

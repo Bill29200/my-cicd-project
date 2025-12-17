@@ -1,0 +1,19 @@
+// src/app/components/admin-dashboard/admin-dashboard.component.scss
+.card {
+  //background-color: #d4e8e3;
+  transition: transform 0.2s, border 0.2s;
+  border: 2px solid transparent;
+  background-color: #efecf4;
+  &:hover {
+    transform: scale(1.05);
+    border: 2px solid #ea5f0a; // couleur Bootstrap danger
+  }
+}
+.modal {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+.nn {
+  color: #a87df6;
+}

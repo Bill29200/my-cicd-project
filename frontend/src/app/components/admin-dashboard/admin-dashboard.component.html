@@ -1,0 +1,199 @@
+<div class="container-fluid py-5">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="display-5 fw-bold">Bienvenue, {{ user.nom }} !</h1>
+      <p class="text-muted mb-0">
+        Vous êtes {{ user.role }}
+        <span class="badge bg-primary rounded-pill">{{ fastfoods.length }} Fastfoods</span>
+      </p>
+    </div>
+    <button class="btn btn-primary btn-lg rounded-circle shadow" title="Ajouter un Fastfood" (click)="createFastfood()">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </div>
+
+  <!-- Recherche -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <form class="d-flex align-items-center">
+        <div class="input-group w-100 w-md-50">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="search" (ngModelChange)="searchFastfood(key.value)" #key="ngModel" ngModel
+                 name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search fastfood..." required>
+        </div>
+      </form>
+      <p *ngIf="searchMessage" class="text-muted mt-2 mb-0">{{ searchMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Liste des Fastfoods -->
+  <div class="row g-4" *ngIf="fastfoods.length; else noFastfoods">
+    <div class="col-md-6 col-lg-4" *ngFor="let fastfood of fastfoods">
+      <div class="card shadow-md h-100 transition-all professional-card">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">{{ fastfood.intitule }}</h5>
+          <div class="mb-3">
+            <p class="mb-1"><strong>Adresse :</strong> {{ fastfood.adresse }}</p>
+            <p class="mb-1"><strong>Téléphone :</strong> {{ fastfood.telephone }}</p>
+          </div>
+          <div class="row text-center">
+            <div class="col-6">
+              <img src="assets/img/manager.png" alt="Gérant" class="rounded-circle mb-2" width="40" height="40">
+              <p class="small mb-0"><strong>Gérant :</strong> {{ fastfood.gerant?.nom || 'Non défini' }}</p>
+            </div>
+            <div class="col-6">
+              <img src="assets/img/serveur.png" alt="Serveur" class="rounded-circle mb-2" width="40" height="40">
+              <p class="small mb-0"><strong>Serveur :</strong> {{ fastfood.serveur?.nom || 'Non défini' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 text-end">
+          <button class="btn btn-outline-primary btn-sm me-2" (click)="updateFastfood(fastfood.fastfoodId, fastfood)">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-outline-danger btn-sm" (click)="confirmeModalShow(fastfood.fastfoodId)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noFastfoods>
+    <div class="text-center py-5">
+      <p class="text-muted">Aucun fastfood disponible. Ajoutez-en un pour commencer !</p>
+    </div>
+  </ng-template>
+
+  <!-- Modal Ajout/Modification -->
+  <div class="modal fade" [ngClass]="{'show d-block': showAddForm}" tabindex="-1" *ngIf="showAddForm">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">{{ titreModal }}</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="cancel()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #fastfoodForm="ngForm" (ngSubmit)="submitFastfood()">
+            <div class="row g-4">
+              <!-- Informations Fastfood -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                  <div class="card-body">
+                    <h6 class="mb-4 text-primary">Informations du Fastfood</h6>
+                    <div class="mb-3 position-relative">
+                      <label for="intitule" class="form-label">Intitulé</label>
+                      <input type="text" class="form-control" id="intitule" name="intitule"
+                             [(ngModel)]="tmpfastfood.intitule" required #intitule="ngModel"
+                             [ngClass]="{'is-invalid': intitule.invalid && intitule.touched}">
+                      <div class="invalid-feedback">L'intitulé est requis.</div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="adresse" class="form-label">Adresse</label>
+                      <input type="text" class="form-control" id="adresse" name="adresse"
+                             [(ngModel)]="tmpfastfood.adresse" required #adresse="ngModel"
+                             [ngClass]="{'is-invalid': adresse.invalid && adresse.touched}">
+                      <div class="invalid-feedback">L'adresse est requise.</div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="telephone" class="form-label">Téléphone</label>
+                      <input type="text" class="form-control" id="telephone" name="telephone"
+                             [(ngModel)]="tmpfastfood.telephone" required #telephone="ngModel"
+                             [ngClass]="{'is-invalid': telephone.invalid && telephone.touched}">
+                      <div class="invalid-feedback">Le téléphone est requis.</div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="logoImage" class="form-label">Logo URL (optionnel)</label>
+                      <input type="text" class="form-control" id="logoImage" name="logoImage"
+                             [(ngModel)]="tmpfastfood.logoUrl">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Personnel -->
+              <div class="col-lg-6">
+                <!-- Gérant -->
+                <div class="card border-0 shadow-sm mb-4">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                      <img src="assets/img/manager.png" alt="Gérant" class="rounded-circle me-2" width="32" height="32">
+                      <h6 class="mb-0 text-info">Gérant</h6>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="nomGerant" class="form-label">Nom du Gérant</label>
+                      <input type="text" class="form-control" id="nomGerant" name="nomGerant"
+                             [(ngModel)]="tmpGerant.nom" required minlength="3" #nomGerant="ngModel"
+                             [ngClass]="{'is-invalid': nomGerant.invalid && nomGerant.touched}">
+                      <div class="invalid-feedback">Le nom du gérant doit comporter au moins 3 caractères.</div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="passGerant" class="form-label">Mot de passe</label>
+                      <input type="password" class="form-control" id="passGerant" name="passGerant"
+                             [(ngModel)]="tmpGerant.password" required minlength="6" #passGerant="ngModel"
+                             [ngClass]="{'is-invalid': passGerant.invalid && passGerant.touched}">
+                      <div class="invalid-feedback">Le mot de passe doit comporter au moins 6 caractères.</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Serveur -->
+                <div class="card border-0 shadow-sm">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                      <img src="assets/img/serveur.png" alt="Serveur" class="rounded-circle me-2" width="32" height="32">
+                      <h6 class="mb-0 text-warning">Serveur</h6>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="nomServeur" class="form-label">Nom du Serveur</label>
+                      <input type="text" class="form-control" id="nomServeur" name="nomServeur"
+                             [(ngModel)]="tmpServeur.nom" required minlength="3" #nomServeur="ngModel"
+                             [ngClass]="{'is-invalid': nomServeur.invalid && nomServeur.touched}">
+                      <div class="invalid-feedback">Le nom du serveur doit comporter au moins 3 caractères.</div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="passwordServeur" class="form-label">Mot de passe</label>
+                      <input type="password" class="form-control" id="passwordServeur" name="passwordServeur"
+                             [(ngModel)]="tmpServeur.password" required minlength="6" #passwordServeur="ngModel"
+                             [ngClass]="{'is-invalid': passwordServeur.invalid && passwordServeur.touched}">
+                      <div class="invalid-feedback">Le mot de passe doit comporter au moins 6 caractères.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p *ngIf="errorMessage" class="text-danger mt-3">{{ errorMessage }}</p>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Annuler</button>
+          <button type="button" class="btn btn-primary" [disabled]="fastfoodForm.invalid" (click)="submitFastfood()">
+            <i class="bi bi-save me-2"></i>{{ modalValidBtn }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="showAddForm"></div>
+
+  <!-- Modal Confirmation -->
+  <div class="modal fade" [ngClass]="{'show d-block': showConfirmForm}" tabindex="-1" *ngIf="showConfirmForm">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Confirmation de suppression</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir supprimer le fastfood <strong>{{ tmpfastfood.intitule }}</strong> ?</p>
+          <p class="text-muted">Cette action supprimera également le gérant et le serveur associés.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="cancelDelete()">Annuler</button>
+          <button type="button" class="btn btn-danger" (click)="delete(tmpfastfoodId)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show" *ngIf="showConfirmForm"></div>
+</div>

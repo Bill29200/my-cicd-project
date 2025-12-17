@@ -1,0 +1,47 @@
+<!-- src/app/components/order-page/order-page.component.html -->
+<div class="container mt-5">
+  <h1>Commande - {{ fastfood?.intitule }}</h1>
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Produits disponibles</h3>
+      <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let produit of produits">
+          <div class="card">
+            <img *ngIf="produit.photo" [src]="produit.photo" class="card-img-top" alt="{{ produit.nomProd }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ produit.nomProd }}</h5>
+              <p class="card-text">Prix: {{ produit.prix }}€</p>
+              <button class="btn btn-primary" [disabled]="!produit.disponible" (click)="addToPanier(produit)">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Panier</h3>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between" *ngFor="let produit of panier; let i = index">
+          {{ produit.nomProd }} - {{ produit.prix }}€
+          <button class="btn btn-sm btn-danger" (click)="removeFromPanier(i)">X</button>
+        </li>
+      </ul>
+      <p><strong>Total: {{ calculateTotal() }}€</strong></p>
+      <h3>Informations Client</h3>
+      <form (ngSubmit)="submitOrder()">
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom</label>
+          <input type="text" class="form-control" id="nom" [(ngModel)]="clientInfo.nom" name="nom" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" [(ngModel)]="clientInfo.email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Téléphone</label>
+          <input type="text" class="form-control" id="telephone" [(ngModel)]="clientInfo.telephone" name="telephone">
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="panier.length === 0">Commander</button>
+      </form>
+    </div>
+  </div>
+</div>

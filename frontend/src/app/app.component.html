@@ -1,0 +1,13 @@
+<!-- src/app/app.component.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Fastfood Manager</a>
+    <div class="navbar-nav">
+      <a class="nav-link" *ngIf="!user" routerLink="/client">Accueil</a>
+      <a class="nav-link" *ngIf="user" routerLink="/{{user.role.toLowerCase()}}">{{ user.nom }}</a>
+      <a class="nav-link" *ngIf="!user" routerLink="/login">Connexion</a>
+      <button class="btn btn-link nav-link btn-danger" *ngIf="user" (click)="logout()">Déconnexion</button>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

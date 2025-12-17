@@ -1,0 +1,11 @@
+// src/app/components/gerant-dashboard/gerant-dashboard.component.scss
+.card {
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.card-img-top {
+  max-height: 150px;
+  object-fit: cover;
+}
