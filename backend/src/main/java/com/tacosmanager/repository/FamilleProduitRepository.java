@@ -1,23 +1,16 @@
 package com.tacosmanager.repository;
 
 import com.tacosmanager.entity.FamilleProduit;
-import org.hibernate.type.descriptor.jdbc.JdbcTypeFamilyInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface FamilleProduitRepository extends JpaRepository<FamilleProduit, Long> {
-    //......................................................................................................READ........
-//    @Query("SELECT fp FROM FamilleProduit fp WHERE fp.intitule")
-//    List<FamilleProduit> findFamilleProduitByFastfood(Long fastfood);
-
-    Optional<FamilleProduit> findById(Long id);
-
-    List<FamilleProduit> findAll();
 
     Optional<FamilleProduit> findByIntitule(String intitule);
 
@@ -25,12 +18,4 @@ public interface FamilleProduitRepository extends JpaRepository<FamilleProduit, 
 
     @Query("SELECT fp FROM FamilleProduit fp WHERE fp.intitule LIKE %:keyword%")
     List<FamilleProduit> searchByKeyword(@Param("keyword") String keyword);
-    //......................................................................................................SAVE........
-    FamilleProduit save(FamilleProduit familleProduit);
-    //...................................................................................................DELETE.........
-    void deleteById(Long id);
-    //.....................................................................................................EXIST........
-    boolean existsById(Long id);
-
-
 }
