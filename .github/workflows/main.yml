@@ -1,0 +1,78 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: tacosbd
+          POSTGRES_USER: tacosuser
+          POSTGRES_PASSWORD: tacospass
+        ports:
+          - 5555:5432  # ← CORRIGEZ ICI : Map container 5432 vers host 5555
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Télécharger le code
+        uses: actions/checkout@v4
+
+      - name: Installer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurer le cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Lancer les tests backend
+        working-directory: backend
+        run: |
+          # Attendre que PostgreSQL soit complètement prêt
+          sleep 10
+          ./mvnw clean test
+
+  frontend:
+    runs-on: ubuntu-latest
+    needs: backend  # ← Le frontend dépend du succès du backend
+
+    steps:
+      - name: Télécharger le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configurer le cache npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm
+
+      - name: Installer les dépendances
+        working-directory: frontend
+        run: npm ci  # Utilise npm ci pour une installation plus fiable
+
+      - name: Builder Angular
+        working-directory: frontend
+        run: npm run build -- --configuration=production
