@@ -3,15 +3,11 @@ package com.tacosmanager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(
-    properties = {
-        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"
-    }
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class TacosManagerApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Test simple qui ne nécessite pas de connexion à la base de données
 	}
-
 }
