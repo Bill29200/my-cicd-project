@@ -20,16 +20,20 @@ public class TacosManagerApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(UserRepository userRepository) {
 		return args -> {
-			User userAdmin = User.builder()
-					.nom("Bill")
-					.password("admin")
-					.role(Role.ADMIN)
-					.email("bill@admin.fr")
-					.build();
+			// Vérifier si l'utilisateur existe déjà
+			if (userRepository.findByEmail("bill@admin.fr").isEmpty()) {
+				User userAdmin = new User();
+				userAdmin.setNom("Bill");
+				userAdmin.setPassword("admin");
+				userAdmin.setRole(Role.ADMIN);
+				userAdmin.setEmail("bill@admin.fr"); // IMPORTANT : email requis
 
-			// Enregistrement en base de données
-			userRepository.save(userAdmin);
+				// Enregistrement en base de données
+				userRepository.save(userAdmin);
+				System.out.println("✅ Utilisateur admin créé avec succès !");
+			}
 		};
+
 	}
 
 
