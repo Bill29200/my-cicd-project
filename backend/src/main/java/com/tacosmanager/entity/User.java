@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -19,6 +20,7 @@ public class User {
     private String nom;
 
     private String password;
+
 
     @Column(nullable = false)
     private String email;
